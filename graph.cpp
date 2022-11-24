@@ -60,10 +60,21 @@ Graph::Graph(int N, enum type t)
     this->N = N;
     int M_cycle = 0;
     int src_prev = 0;
+    int src_begin = 0;
     int i = 0;
+    int aloned = 0;
+    int connected = 0;
+    bool isvalid = false;
+    bool isallconnected = false;
     // // Providing a seed value
 	// srand((unsigned) time(NULL));
     seed = rand();
+
+    // initialize head pointer for all vertices
+    for (int i = 0; i < N; i++) 
+    {
+        head[i] = nullptr;
+    }
 
     switch (t)
     {
@@ -72,57 +83,86 @@ Graph::Graph(int N, enum type t)
             M = GRAPH_VERTEX_AVG_DEG * N / 2;
             edges = new Edge[M];
 
-
-            M_cycle = M * HUNDRED_PERCENT / GRAPH_VERTEX_CYCLE_PERCENTAGE;
+            M_cycle = M * GRAPH_VERTEX_CYCLE_PERCENTAGE / HUNDRED_PERCENT;
             // Ensure the connectivity form a cycle of 100 vertex
             i = 0;
             src_prev = rand() % N;
+            src_begin = src_prev;
+
+            // Form the graph with at lease one cycle
             while (i < M_cycle)
             {
-                edges[i].src = src_prev;
-                edges[i].dest = rand() % N;
-                edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
-
-                if (edges[i].src == edges[i].dest)
+                if (i == M_cycle - 1)
                 {
-                    // Invalid edge
-                    continue;
+                    // The last edge is to connect back to the beginning vertex
+                    edges[i].src = src_prev;
+                    edges[i].dest = src_begin;
+                    edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
                 }
-                
-                i++;
+                else
+                {
+                    edges[i].src = src_prev;
+                    edges[i].dest = rand() % N;
+                    edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
+                }
 
-                // Last dest become next src
-                src_prev = edges[i].dest;
+                isvalid = isEdgeValid(edges[i], i);
+
+                if (isvalid == true)
+                {
+                    // This is the stage where we are still constructing cycle
+                    // Last dest become next src
+                    src_prev = edges[i].dest;
+
+                    connectVertices(edges[i]);
+                    
+                    i++;
+                }
             }
 
-            // initialize head pointer for all vertices
-            for (int i = 0; i < N; i++) 
+            // Second stage of forming the graph
+            // Connect the vertex in the cycle list with new vertex
+            while (i < M)
             {
-                head[i] = nullptr;
+                // Search for vertex that is not connected
+                if (isallconnected == false)
+                {
+                    aloned = searchAlonedVertex();
+                    connected = searchConnectedVertex();
+                    if (aloned < 0)
+                    {
+                        isallconnected = true;
+                    }
+                    else
+                    {
+                        edges[i].src = connected;
+                        edges[i].dest = aloned;
+                        edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
+                    }
+                }
+                else
+                {
+                    edges[i].src = rand() % N;
+                    edges[i].dest = rand() % N;
+                    edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
+                }
+
+                isvalid = isEdgeValid(edges[i], i);
+
+                if (isvalid == true)
+                {
+                    // This is the stage where we are still constructing cycle
+                    // Last dest become next src
+                    src_prev = edges[i].dest;
+
+                    connectVertices(edges[i]);
+                    
+                    i++;
+                }
             }
-
-            // add edges to the directed graph
-            for (unsigned i = 0; i < this->M; i++)
-            {
-                int src = edges[i].src;
-                int dest = edges[i].dest;
-                int weight = edges[i].weight;
-
-                // insert at the beginning
-                Vertex* newVertex = getAdjListVertex(dest, weight, head[src]);
-
-                // point head pointer to the new node
-                head[src] = newVertex;
-
-                // uncomment the following code for undirected graph
-                newVertex = getAdjListVertex(src, weight, head[dest]);
-                // change head pointer to point to the new node
-                head[dest] = newVertex;
-            }
-
             break;
         case type_2:
-
+            // 20% of vertex in neighbor
             break;
         default: 
             break;
@@ -137,6 +177,7 @@ Graph::~Graph()
     }
 
     delete[] head;
+    delete[] edges;
 }
 
 Vertex* Graph::getAdjListVertex(int value, int weight, Vertex* head)
@@ -151,6 +192,86 @@ Vertex* Graph::getAdjListVertex(int value, int weight, Vertex* head)
     return newVertex;
 }
 
+bool Graph::isEdgeValid(Edge edge, int idx)
+{
+    bool isvalid = true;
+    int j = 0;
+    // Check invalid edge and regenerate again
+    if (edges[idx].src == edges[idx].dest)
+    {
+        // Invalid undirected edge
+        // self to self
+        isvalid = false;
+    }
+    else
+    {
+        for (j = 0; j < idx; j++)
+        {
+            if ((edges[j].src == edges[idx].src 
+                && edges[j].dest == edges[idx].dest) 
+                || (edges[j].src == edges[idx].dest 
+                && edges[j].dest == edges[idx].src))
+            {
+                // Check previous generated edges
+                // Invalid edges: duplicate edges w/ different weight
+                isvalid = false;
+            }
+        }
+    }
+    return isvalid;
+}
+
+void Graph::connectVertices(Edge edge)
+{
+    int src, dest, weight;
+    
+    // add edges to the directed graph
+    src = edge.src;
+    dest = edge.dest;
+    weight = edge.weight;
+
+    // insert at the beginning
+    Vertex* newVertex = getAdjListVertex(dest, weight, head[src]);
+
+    // point head pointer to the new node
+    head[src] = newVertex;
+
+    // uncomment the following code for undirected graph
+    newVertex = getAdjListVertex(src, weight, head[dest]);
+    // change head pointer to point to the new node
+    head[dest] = newVertex;
+}
+
+int Graph::searchAlonedVertex()
+{
+    int i = 0;
+    while (head[i] != NULL)
+    {
+        if (i < N)
+        {
+            i++;
+        }
+        else
+        {   
+            // Couldn't find aloned vertex
+            // All vertex is connected
+            return -1;
+        }
+    }
+    return i;
+}
+
+int Graph::searchConnectedVertex()
+{
+    // Randomly pick connected vertex
+    int i = rand() % N;
+    while (head[i] == NULL)
+    {
+        i = rand() % N;
+    }
+    return i;
+}
+
 void Graph::printList(int i)
 {
     Vertex *ptr = head[i];
@@ -160,4 +281,18 @@ void Graph::printList(int i)
         ptr = ptr->next;
     }
     cout << endl;
+}
+
+bool isBipartite()
+{
+    bool ret = false;
+
+    return ret;
+}
+
+bool isConnected()
+{
+    bool ret = false;
+
+    return ret;
 }

@@ -63,6 +63,19 @@ private:
 
     // Function to allocate a new vertex for the adjacency list
     Vertex* getAdjListVertex(int value, int weight, Vertex* head);
+
+    // Function to check if the new random generated edge is valid
+    bool isEdgeValid(Edge edge, int idx);
+
+    // Function to connect two vertices by new edges
+    void connectVertices(Edge edge);
+
+    // Function to search for alone vertex
+    // By alone, I mean those vertex that has not been connected
+    int searchAlonedVertex();
+
+    // Function to search for connected vertex
+    int searchConnectedVertex();
  
 public:
     // Constructor default
@@ -79,6 +92,10 @@ public:
 
     // Function to print all neighboring vertices of a given vertex
     void printList(int i);
+
+    bool isBipartite();
+
+    bool isConnected();
 };
 
 #endif
