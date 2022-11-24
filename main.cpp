@@ -5,20 +5,22 @@
 
 #include <iostream>
 #include "graph.h"
+#include "routing.h"
 using namespace std;
 
- 
-
+#define DEBUG_MAIN  1
 
 // Graph implementation in C++ without using STL
 int main()
 {
     // total number of nodes in the graph (labelled from 0 to 5)
-    int N = 6;
+    int N = 10;
  
     // construct graph
-    Graph graph(N);
- 
+    Graph * graph = new Graph(N, type_1);
+    MaxBwDijkstra * dijkstra = new MaxBwDijkstra(N, graph);
+
+#if DEBUG_MAIN
     // print adjacency list representation of a graph
     for (int i = 0; i < N; i++)
     {
@@ -26,8 +28,9 @@ int main()
         cout << i;
  
         // print all its neighboring vertices
-        graph.printList(i);
+        graph->printList(i);
     }
- 
+#endif
+
     return 0;
 }
