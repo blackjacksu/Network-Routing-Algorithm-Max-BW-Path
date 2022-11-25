@@ -164,7 +164,7 @@ Graph::Graph(int N, enum type t)
         case type_2:
             // 20% of vertex in neighbor 
             // Allocate memory according to total number of edges 
-            M = N * N * GRAPH_TYPE_2_VERTEX_ADJACENCY_PERCENTAGE;
+            M = N * N * GRAPH_TYPE_2_VERTEX_ADJACENCY_PERCENTAGE / 2;
             edges = new Edge[M];
 
             M_cycle = M * GRAPH_VERTEX_CYCLE_PERCENTAGE;
