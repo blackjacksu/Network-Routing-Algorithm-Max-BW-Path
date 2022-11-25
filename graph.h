@@ -13,12 +13,14 @@ using namespace std;
 
 #define DEBUG_GRAPH     0
 
-#define HUNDRED_PERCENT 100
+#define HUNDRED_PERCENT 100 // (%)
 
-#define GRAPH_VERTEX_AVG_DEG    6
+
+#define GRAPH_TYPE_1_VERTEX_AVG_DEG    6
+#define GRAPH_TYPE_2_VERTEX_ADJACENCY_PERCENTAGE    20 / HUNDRED_PERCENT
 #define GRAPH_VERTEX_MAX    5000
 #define GRAPH_VERTEX_MIN    10
-#define GRAPH_VERTEX_CYCLE_PERCENTAGE   50 // (%)
+#define GRAPH_VERTEX_CYCLE_PERCENTAGE   50 / HUNDRED_PERCENT
 
 
 #define GRAPH_EDGE_WEIGHT_MAX   100
@@ -40,7 +42,7 @@ struct Edge {
 // The type of graph: 1, 2
 enum type {
     type_1, // Avg vertex degree = 6
-    type_2, // Vertex is adjacent to 20% of other vertex
+    type_2, // Vertex is adjacent to 20% of the total vertices
 };
 
 

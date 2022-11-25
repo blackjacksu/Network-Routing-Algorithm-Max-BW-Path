@@ -80,10 +80,10 @@ Graph::Graph(int N, enum type t)
     {
         case type_1:
             // Allocate memory according to total number of edges 
-            M = GRAPH_VERTEX_AVG_DEG * N / 2;
+            M = N * GRAPH_TYPE_1_VERTEX_AVG_DEG / 2;
             edges = new Edge[M];
 
-            M_cycle = M * GRAPH_VERTEX_CYCLE_PERCENTAGE / HUNDRED_PERCENT;
+            M_cycle = M * GRAPH_VERTEX_CYCLE_PERCENTAGE;
             // Ensure the connectivity form a cycle of 100 vertex
             i = 0;
             src_prev = rand() % N;
@@ -162,7 +162,88 @@ Graph::Graph(int N, enum type t)
             }
             break;
         case type_2:
-            // 20% of vertex in neighbor
+            // 20% of vertex in neighbor 
+            // Allocate memory according to total number of edges 
+            M = N * N * GRAPH_TYPE_2_VERTEX_ADJACENCY_PERCENTAGE;
+            edges = new Edge[M];
+
+            M_cycle = M * GRAPH_VERTEX_CYCLE_PERCENTAGE;
+            // Ensure the connectivity form a cycle of 100 vertex
+            i = 0;
+            src_prev = rand() % N;
+            src_begin = src_prev;
+
+            // Form the graph with at lease one cycle
+            while (i < M_cycle)
+            {
+                if (i == M_cycle - 1)
+                {
+                    // The last edge is to connect back to the beginning vertex
+                    edges[i].src = src_prev;
+                    edges[i].dest = src_begin;
+                    edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
+                }
+                else
+                {
+                    edges[i].src = src_prev;
+                    edges[i].dest = rand() % N;
+                    edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
+                }
+
+                isvalid = isEdgeValid(edges[i], i);
+
+                if (isvalid == true)
+                {
+                    // This is the stage where we are still constructing cycle
+                    // Last dest become next src
+                    src_prev = edges[i].dest;
+
+                    connectVertices(edges[i]);
+                    
+                    i++;
+                }
+            }
+
+            // Second stage of forming the graph
+            // Connect the vertex in the cycle list with new vertex
+            while (i < M)
+            {
+                // Search for vertex that is not connected
+                if (isallconnected == false)
+                {
+                    aloned = searchAlonedVertex();
+                    connected = searchConnectedVertex();
+                    if (aloned < 0)
+                    {
+                        isallconnected = true;
+                    }
+                    else
+                    {
+                        edges[i].src = connected;
+                        edges[i].dest = aloned;
+                        edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
+                    }
+                }
+                else
+                {
+                    edges[i].src = rand() % N;
+                    edges[i].dest = rand() % N;
+                    edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
+                }
+
+                isvalid = isEdgeValid(edges[i], i);
+
+                if (isvalid == true)
+                {
+                    // This is the stage where we are still constructing cycle
+                    // Last dest become next src
+                    src_prev = edges[i].dest;
+
+                    connectVertices(edges[i]);
+                    
+                    i++;
+                }
+            }
             break;
         default: 
             break;

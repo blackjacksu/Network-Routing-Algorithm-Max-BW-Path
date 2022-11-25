@@ -18,10 +18,12 @@ int main()
  
     // construct graph
     Graph * graph = new Graph(N, type_1);
+    Graph * graph2 = new Graph(N, type_2);
     MaxBwDijkstra * dijkstra = new MaxBwDijkstra(N, graph);
 
 #if DEBUG_MAIN
     // print adjacency list representation of a graph
+    cout << "Graph type 1" << endl;
     for (int i = 0; i < N; i++)
     {
         // print given vertex
@@ -29,6 +31,16 @@ int main()
  
         // print all its neighboring vertices
         graph->printList(i);
+    }
+
+    cout << "Graph type 2" << endl;
+    for (int i = 0; i < N; i++)
+    {
+        // print given vertex
+        cout << i;
+ 
+        // print all its neighboring vertices
+        graph2->printList(i);
     }
 #endif
 
