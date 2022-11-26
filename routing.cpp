@@ -12,8 +12,10 @@ MaxBwDijkstra::MaxBwDijkstra(Graph * g, bool w_heap)
     edge_num = G->getEdgeNum();
 
     status = new v_type[vertex_num] {unseen};
-    dad = new int[vertex_num] {-1};
-    bwidth = new int[vertex_num] {INT32_MAX};
+    dad = new int[vertex_num];
+    fill_n(dad, sizeof(int) * vertex_num, -1);
+    bwidth = new int[vertex_num];
+    fill_n(bwidth, sizeof(int) * vertex_num, INT32_MAX);
 
     if (w_heap == true)
     {

@@ -7,6 +7,7 @@
 #define SRC_CPP_ROUTING_H
 
 #include <iostream>
+#include <algorithm>
 #include "graph.h"
 #include "datastruct.h"
 
