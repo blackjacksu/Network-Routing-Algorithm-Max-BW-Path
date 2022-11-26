@@ -7,15 +7,21 @@ MaxBwDijkstra::MaxBwDijkstra()
 
 MaxBwDijkstra::MaxBwDijkstra(Graph * g, bool w_heap)
 {
+    int i;
     G = g;
     vertex_num = G->getEdgeNum();
     edge_num = G->getEdgeNum();
 
     status = new v_type[vertex_num] {unseen};
     dad = new int[vertex_num];
-    fill_n(dad, sizeof(int) * vertex_num, -1);
+    // fill_n(dad, sizeof(int) * vertex_num, -1);
     bwidth = new int[vertex_num];
-    fill_n(bwidth, sizeof(int) * vertex_num, INT32_MAX);
+    // fill_n(bwidth, sizeof(int) * vertex_num, INT32_MAX);
+    for (i = 0; i < vertex_num; i++)
+    {
+        dad[i] = -1;
+        bwidth[i] = INT32_MAX;
+    }
 
     if (w_heap == true)
     {
