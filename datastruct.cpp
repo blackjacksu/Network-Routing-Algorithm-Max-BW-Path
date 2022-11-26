@@ -102,3 +102,8 @@ int MaxHeap::max()
 {
     return heap[0];
 }
+
+bool MaxHeap::isEmpty()
+{
+    return size == 0;
+}

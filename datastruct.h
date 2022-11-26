@@ -13,8 +13,8 @@ using namespace std;
 
 #define DEBUG_DATA_STRUCT   0
 
-#define SIZE_MAX    10000
-#define HEAP_SIZE_MAX   SIZE_MAX
+#define DATA_SIZE_MAX    10000
+#define HEAP_SIZE_MAX   DATA_SIZE_MAX
 
 #define left(i)     ((i << 1) + 1) // (2 * i + 1)
 #define right(i)    ((i << 1) + 2) // (2 * i + 2)
@@ -46,6 +46,8 @@ public:
 
     // Return the root of the heap
     int max();
+
+    bool isEmpty();
 };
 
 #endif
