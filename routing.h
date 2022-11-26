@@ -1,6 +1,6 @@
 // Author: TING-WEI SU
 // Institute: Texas A&M University
-// Date: 11/19/2022
+// Date: 11/25/2022
 // Project: Maximum Bandwidth Routing Algorithm
 
 #ifndef SRC_CPP_ROUTING_H
@@ -14,10 +14,23 @@ using namespace std;
 
 #define DEBUG_MAX_BW_PATH 0
 
+// The type of vertex:
+enum v_type {
+    unseen = 0, // Init state of vertex
+    intray, // The vertex we use to begin with and explore its neighbor 
+    fringer, // The vertex that is neighbored to intray vertex
+};
+
 class MaxBwDijkstra
 {
 private:
     Graph * G;
+    int vertex_num;
+    int edge_num;
+
+    v_type * status;
+    int * bwidth;
+    int * dad;
 
     // With heap
     MaxHeap * Heap;
@@ -30,12 +43,12 @@ public:
     // Constructors
     MaxBwDijkstra();
 
-    MaxBwDijkstra(bool w_heap);
+    MaxBwDijkstra(Graph * g, bool w_heap);
 
     // Destructor
     ~MaxBwDijkstra();
 
-    int MaxBwDijkstra::findMaxBWPath(Graph * g, int src, int dest, int * maxPath);
+    int findMaxBWPath(int src, int dest, int * maxPath);
 
 };
 

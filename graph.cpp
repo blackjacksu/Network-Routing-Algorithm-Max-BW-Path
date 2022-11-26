@@ -66,9 +66,10 @@ Graph::Graph(int N, enum type t)
     int connected = 0;
     bool isvalid = false;
     bool isallconnected = false;
-    // // Providing a seed value
-	// srand((unsigned) time(NULL));
-    seed = rand();
+    // Providing a seed value
+#if ENABLE_RANDOMESS
+	srand((unsigned) time(NULL));
+#endif
 
     // initialize head pointer for all vertices
     for (int i = 0; i < N; i++) 
@@ -364,14 +365,25 @@ void Graph::printList(int i)
     cout << endl;
 }
 
-bool isBipartite()
+int Graph::getVertexNum()
+{
+    return N;
+}
+
+
+int Graph::getEdgeNum()
+{
+    return M;
+}
+
+bool Graph::isBipartite()
 {
     bool ret = false;
 
     return ret;
 }
 
-bool isConnected()
+bool Graph::isConnected()
 {
     bool ret = false;
 

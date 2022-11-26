@@ -12,6 +12,7 @@
 using namespace std;
 
 #define DEBUG_GRAPH     0
+#define ENABLE_RANDOMESS    0
 
 #define HUNDRED_PERCENT 100 // (%)
 
@@ -94,6 +95,12 @@ public:
 
     // Function to print all neighboring vertices of a given vertex
     void printList(int i);
+
+    // Function to get the vertex number
+    int getVertexNum();
+
+    // Function to get the edge number
+    int getEdgeNum();
 
     bool isBipartite();
 

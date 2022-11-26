@@ -5,16 +5,24 @@ MaxBwDijkstra::MaxBwDijkstra()
 
 }
 
-MaxBwDijkstra::MaxBwDijkstra(bool w_heap)
+MaxBwDijkstra::MaxBwDijkstra(Graph * g, bool w_heap)
 {
+    G = g;
+    vertex_num = G->getEdgeNum();
+    edge_num = G->getEdgeNum();
+
+    status = new v_type[vertex_num] {unseen};
+    dad = new int[vertex_num] {-1};
+    bwidth = new int[vertex_num] {INT32_MAX};
+
     if (w_heap == true)
     {
         Heap = new MaxHeap();
     }
     else
     {
-        H = new int[SIZE_MAX];
-        D = new int[SIZE_MAX];
+        H = new int[vertex_num];
+        D = new int[vertex_num];
     }
 }
 
@@ -24,12 +32,20 @@ MaxBwDijkstra::~MaxBwDijkstra()
     
     delete [] H;
     delete [] D;
+    delete [] status;
+    delete [] dad;
+    delete [] bwidth;
 }
 
-int MaxBwDijkstra::findMaxBWPath(Graph * g, int src, int dest, int * maxPath)
+int MaxBwDijkstra::findMaxBWPath(int src, int dest, int * maxPath)
 {
     int maxbw = 0;
-    G = g;
 
+
+
+    while (!Heap->isEmpty())
+    {
+
+    }
     return maxbw;
 }
