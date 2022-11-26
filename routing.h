@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "graph.h"
+#include "datastruct.h"
 
 using namespace std;
 
@@ -17,16 +18,43 @@ class MaxBwDijkstra
 {
 private:
     Graph * G;
+
+    // With heap
+    MaxHeap * Heap;
+
+    // Without heap
+    int * H;
+    int * D;
+
 public:
     // Constructors
     MaxBwDijkstra();
 
-    MaxBwDijkstra(int N);
+    MaxBwDijkstra(bool w_heap);
 
-    MaxBwDijkstra(int N, Graph * g);
-
+    // Destructor
     ~MaxBwDijkstra();
 
+    int MaxBwDijkstra::findMaxBWPath(Graph * g, int src, int dest, int * maxPath);
+
 };
+
+class MaxBwKruskal
+{
+private:
+    Graph * G;
+public:
+    // Constructors
+    MaxBwKruskal();
+
+    MaxBwKruskal(int N);
+
+    MaxBwKruskal(int N, Graph * g);
+
+    ~MaxBwKruskal();
+
+};
+
+
 
 #endif
