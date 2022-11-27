@@ -41,16 +41,11 @@ Graph::Graph(int N)
         int dest = edges[i].dest;
         int weight = edges[i].weight;
 
-        // insert at the beginning
-        Vertex* newVertex = getAdjListVertex(dest, weight, head[src]);
+        // insert at the beginning for src vertex
+        insertNewVertexAtHead(dest, weight, head[src]);
 
-        // point head pointer to the new node
-        head[src] = newVertex;
-
-        // uncomment the following code for undirected graph
-        newVertex = getAdjListVertex(src, weight, head[dest]);
-        // change head pointer to point to the new node
-        head[dest] = newVertex;
+        // insert at the beginning for dest vertex
+        insertNewVertexAtHead(src, weight, head[dest]);
     }
 }
 
@@ -262,7 +257,7 @@ Graph::~Graph()
     delete[] edges;
 }
 
-Vertex* Graph::getAdjListVertex(int value, int weight, Vertex* head)
+void Graph::insertNewVertexAtHead(int value, int weight, Vertex* head)
 {
     Vertex* newVertex = new Vertex;
     newVertex->val = value;
@@ -270,8 +265,9 @@ Vertex* Graph::getAdjListVertex(int value, int weight, Vertex* head)
 
     // point new node to the current head
     newVertex->next = head;
-
-    return newVertex;
+            
+    // point head pointer to the new node
+    head = newVertex;
 }
 
 bool Graph::isEdgeValid(Edge edge, int idx)
@@ -312,16 +308,11 @@ void Graph::connectVertices(Edge edge)
     dest = edge.dest;
     weight = edge.weight;
 
-    // insert at the beginning
-    Vertex* newVertex = getAdjListVertex(dest, weight, head[src]);
+    // insert at the beginning for src vertex
+    insertNewVertexAtHead(dest, weight, head[src]);
 
-    // point head pointer to the new node
-    head[src] = newVertex;
-
-    // uncomment the following code for undirected graph
-    newVertex = getAdjListVertex(src, weight, head[dest]);
-    // change head pointer to point to the new node
-    head[dest] = newVertex;
+    // insert at the beginning for dest vertex
+    insertNewVertexAtHead(src, weight, head[dest]);
 }
 
 int Graph::searchAlonedVertex()
@@ -374,6 +365,14 @@ int Graph::getVertexNum()
 int Graph::getEdgeNum()
 {
     return M;
+}
+
+Vertex * Graph::getAdjList(int v)
+{
+    if (v < N)
+    {
+        return head[v];
+    }
 }
 
 bool Graph::isBipartite()

@@ -15,6 +15,8 @@ using namespace std;
 
 #define DEBUG_MAX_BW_PATH 0
 
+#define findmin(a, b) (a > b ? b : a)
+
 // The type of vertex:
 enum v_type {
     unseen = 0, // Init state of vertex
@@ -34,6 +36,7 @@ private:
     int * dad;
 
     // With heap
+    bool w_heap;
     MaxHeap * Heap;
 
     // Without heap

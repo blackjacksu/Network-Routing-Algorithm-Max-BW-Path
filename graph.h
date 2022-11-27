@@ -31,7 +31,8 @@ using namespace std;
 // Data structure to store adjacency list nodes
 struct Vertex
 {
-    int val, cost, deg;
+    int val;    // val: connected vertex
+    int cost;   // cost: cost to pay to neighbor vertex
     Vertex* next;
 };
  
@@ -65,7 +66,7 @@ private:
     int seed;
 
     // Function to allocate a new vertex for the adjacency list
-    Vertex* getAdjListVertex(int value, int weight, Vertex* head);
+    void insertNewVertexAtHead(int value, int weight, Vertex* head);
 
     // Function to check if the new random generated edge is valid
     bool isEdgeValid(Edge edge, int idx);
@@ -102,8 +103,13 @@ public:
     // Function to get the edge number
     int getEdgeNum();
 
+    // Function to get adjacency list
+    Vertex * getAdjList(int v);
+
+    // To-Do: check graph bipartiteness
     bool isBipartite();
 
+    // To-Do: check graph connectivity
     bool isConnected();
 };
 

@@ -16,6 +16,8 @@ int main()
 {
     // Total number of nodes in the graph (labelled from 0 to 5)
     int N = 10;
+    int src, dest;
+    int path[10];
  
     // Construct graphs
     Graph * graph = new Graph(N, type_1);
@@ -26,7 +28,11 @@ int main()
     MaxBwDijkstra * heap_dijkstra_2 = new MaxBwDijkstra(graph2, true);
 
     // Randomly pick a source vertex and destination vertex
+    src = random() % N;
+    dest = random() % N;
 
+    heap_dijkstra->findMaxBWPath(src, dest, path);
+    array_dijkstra->findMaxBWPath(src, dest, path);
 
 #if DEBUG_MAIN
     // print adjacency list representation of a graph
