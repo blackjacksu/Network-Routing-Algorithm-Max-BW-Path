@@ -263,7 +263,7 @@ Graph::~Graph()
     delete[] edges;
 }
 
-void Graph::insertNewVertexAtHead(int value, int weight, Vertex* head)
+Vertex * Graph::insertNewVertexAtHead(int value, int weight, Vertex* head)
 {
     Vertex* newVertex = new Vertex;
     newVertex->val = value;
