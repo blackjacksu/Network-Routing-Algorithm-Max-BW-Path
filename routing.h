@@ -58,26 +58,43 @@ public:
     // Destructor
     ~MaxBwDijkstra();
 
+    // Find the max bandwidth path from src to dest
     int findMaxBWPath(int src, int dest, int * maxPath);
-
-
-
 };
 
 class MaxBwKruskal
 {
 private:
     Graph * G;
+    int vertex_num;
+    int edge_num;
+
+    int * dad;
+    int * rank;
+
+    // Disjoint set operation:
+    // Create a set whose only member is x
+    void makeSet(int x);
+
+    // Unites the two set that contain x and y
+    // Say S = Sx U Sy
+	void unionSet(int x, int y);
+
+    // Find the root of x
+	int find(int x);
+
+    // Kruskal Maximum Spanning Tree 
+    void KruskalMST();
 public:
     // Constructors
     MaxBwKruskal();
 
-    MaxBwKruskal(int N);
-
-    MaxBwKruskal(int N, Graph * g);
+    MaxBwKruskal(Graph * g);
 
     ~MaxBwKruskal();
 
+    // Find the max bandwidth path from src to dest
+    int findMaxBWPath(int src, int dest, int * maxPath);
 };
 
 

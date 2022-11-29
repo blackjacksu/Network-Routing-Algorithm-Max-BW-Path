@@ -239,3 +239,85 @@ int MaxBwDijkstra::getLargestFringer()
     }
     return maxfringerid;
 }
+
+// Kruskal Maximum Bandwidth Path
+
+void MaxBwKruskal::makeSet(int x)
+{
+    // Create a set of its own
+    rank[x] = 0;
+    dad[x] = x;
+}
+
+void MaxBwKruskal::unionSet(int x, int y)
+{
+    // Union by rank
+    int x_root = find(x);
+    int y_root = find(y);
+
+    if (x_root == y_root)
+    {
+        // Already in the same set
+        return;
+    }
+
+    int x_rank = rank[x];
+    int y_rank = rank[y];
+
+    if (x_rank > y_rank)
+    {
+        // Make x the dad of y
+        dad[y] = x;
+    }
+    else if (x_rank < y_rank)
+    {
+        // Make y the dad of x
+        dad[x] = y;
+    }
+    else
+    {
+        // Where x_rank = y_rank
+        dad[y] = x;
+        rank[x]++;
+    }
+    
+}
+
+int MaxBwKruskal::find(int x)
+{
+    // If x is the root of itself
+    if (dad[x] == x) {
+        return x;
+    }
+    else {
+        return find(dad[x]);
+    }
+}
+
+MaxBwKruskal::MaxBwKruskal()
+{
+
+}
+
+MaxBwKruskal::MaxBwKruskal(Graph * g)
+{
+    int i;
+    G = g;
+    vertex_num = G->getEdgeNum();
+    edge_num = G->getEdgeNum();
+
+    dad = new int [vertex_num];
+    rank = new int [vertex_num];
+
+    for (i = 0; i < vertex_num; i++)
+    {
+        dad[i] = INT32_MIN;
+        rank[i] = INT32_MIN;
+    }
+
+}
+
+MaxBwKruskal::~MaxBwKruskal()
+{
+
+}
