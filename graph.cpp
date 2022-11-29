@@ -257,7 +257,7 @@ Graph::~Graph()
     delete[] edges;
 }
 
-void Graph::insertNewVertexAtHead(int value, int weight, Vertex* head)
+Vertex * Graph::insertNewVertexAtHead(int value, int weight, Vertex* head)
 {
     Vertex* newVertex = new Vertex;
     newVertex->val = value;
@@ -267,7 +267,7 @@ void Graph::insertNewVertexAtHead(int value, int weight, Vertex* head)
     newVertex->next = head;
             
     // point head pointer to the new node
-    head = newVertex;
+    return newVertex;
 }
 
 bool Graph::isEdgeValid(Edge edge, int idx)
@@ -309,10 +309,14 @@ void Graph::connectVertices(Edge edge)
     weight = edge.weight;
 
     // insert at the beginning for src vertex
-    insertNewVertexAtHead(dest, weight, head[src]);
+    Vertex * newVertex = insertNewVertexAtHead(dest, weight, head[src]);
+
+    head[src] = newVertex;
 
     // insert at the beginning for dest vertex
-    insertNewVertexAtHead(src, weight, head[dest]);
+    newVertex = insertNewVertexAtHead(src, weight, head[dest]);
+
+    head[dest] = newVertex;
 }
 
 int Graph::searchAlonedVertex()
@@ -373,6 +377,8 @@ Vertex * Graph::getAdjList(int v)
     {
         return head[v];
     }
+    // Fix bug: forget to return if v >= N
+    return NULL;
 }
 
 bool Graph::isBipartite()
