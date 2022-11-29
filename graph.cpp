@@ -41,11 +41,17 @@ Graph::Graph(int N)
         int dest = edges[i].dest;
         int weight = edges[i].weight;
 
-        // insert at the beginning for src vertex
-        insertNewVertexAtHead(dest, weight, head[src]);
+        // Insert at the beginning for src vertex
+        Vertex * newVertex = insertNewVertexAtHead(dest, weight, head[src]);
 
-        // insert at the beginning for dest vertex
-        insertNewVertexAtHead(src, weight, head[dest]);
+        // To-Do: point head pointer to the new node
+        head[src] = newVertex;
+
+        // Insert at the beginning for dest vertex
+        newVertex = insertNewVertexAtHead(src, weight, head[dest]);
+
+        // To-Do: change head pointer to point to the new node
+        head[dest] = newVertex;
     }
 }
 
@@ -257,7 +263,7 @@ Graph::~Graph()
     delete[] edges;
 }
 
-Vertex * Graph::insertNewVertexAtHead(int value, int weight, Vertex* head)
+void Graph::insertNewVertexAtHead(int value, int weight, Vertex* head)
 {
     Vertex* newVertex = new Vertex;
     newVertex->val = value;
@@ -266,7 +272,10 @@ Vertex * Graph::insertNewVertexAtHead(int value, int weight, Vertex* head)
     // point new node to the current head
     newVertex->next = head;
             
-    // point head pointer to the new node
+    // // point head pointer to the new node
+    // head = newVertex;
+
+    // To-Do: Workaround
     return newVertex;
 }
 
@@ -308,14 +317,16 @@ void Graph::connectVertices(Edge edge)
     dest = edge.dest;
     weight = edge.weight;
 
-    // insert at the beginning for src vertex
+    // Insert at the beginning for src vertex
     Vertex * newVertex = insertNewVertexAtHead(dest, weight, head[src]);
-
+    
+    // To-Do: point head pointer to the new node
     head[src] = newVertex;
 
-    // insert at the beginning for dest vertex
+    // Insert at the beginning for dest vertex
     newVertex = insertNewVertexAtHead(src, weight, head[dest]);
-
+    
+    // To-Do: change head pointer to point to the new node
     head[dest] = newVertex;
 }
 
@@ -377,7 +388,7 @@ Vertex * Graph::getAdjList(int v)
     {
         return head[v];
     }
-    // Fix bug: forget to return if v >= N
+    // Bug: when v >= N, will not return
     return NULL;
 }
 

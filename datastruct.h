@@ -20,14 +20,19 @@ using namespace std;
 #define right(i)    ((i << 1) + 2) // (2 * i + 2)
 #define parent(j)   ((j - 1) >> 1) // ((j - 1) / 2)
 
+struct node {
+    int idx;
+    int bw;
+};
+
 class MaxHeap
 {
 private: 
     unsigned int size;
-    int * heap;
+    struct node * heap;
     int height;
 
-    void swap(int &a, int &b);
+    void swap(struct node &a, struct node &b);
 
     void max_heapify_up(int i);
 
@@ -39,14 +44,18 @@ public:
     ~MaxHeap();
 
     // Insert new element to heap
-    void insert(int x);
+    void insertNode(int idx, int bw);
 
     // Remove an element from heap
     void removeMax();
 
-    // Return the root of the heap
-    int max();
+    // Remove certain element from heap
+    void removeNode(int bw);
 
+    // Return the root of the heap
+    int getMax();
+    
+    // Emptiness of heap 
     bool isEmpty();
 };
 

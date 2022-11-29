@@ -66,6 +66,7 @@ private:
     int seed;
 
     // Function to allocate a new vertex for the adjacency list
+    // To-Do: Temperarily work around, but why??
     Vertex * insertNewVertexAtHead(int value, int weight, Vertex* head);
 
     // Function to check if the new random generated edge is valid
