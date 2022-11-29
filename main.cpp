@@ -13,16 +13,7 @@ using namespace std;
 #define DEBUG_MAIN  1
 
 
-void printPath(int src, int dest, int * path)
-{
-    int i = dest;
-    while (path[i] != src)
-    {
-        i = path[dest];
-        // print the path in reverse order
-        cout << i << endl;
-    }
-}
+
 
 // Graph implementation in C++ without using STL
 int main()
@@ -51,7 +42,6 @@ int main()
 
     MaxBwDijkstra * array_dijkstra = new MaxBwDijkstra(graph, false);
     array_dijkstra->findMaxBWPath(src, dest, path);
-    printPath(src, dest, path);
 
     MaxBwDijkstra * heap_dijkstra_2 = new MaxBwDijkstra(graph2, true);
     heap_dijkstra_2->findMaxBWPath(src, dest, path);

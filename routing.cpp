@@ -61,6 +61,7 @@ int MaxBwDijkstra::Dijkstra_wHeap(int src, int dest, int * path)
 {
     int maxbw = 0;
     int i = 0;
+    int j = 0;
     int v = 0;
 
     status[src] = intree;
@@ -124,7 +125,15 @@ int MaxBwDijkstra::Dijkstra_wHeap(int src, int dest, int * path)
 
     maxbw = bwidth[dest];
 
-    path = dad;
+    // Print the path
+    j = dest;
+    while (dad[j] != src)
+    {
+        j = dad[j];
+        // print the path in reverse order
+        cout << j << "<-" << endl;
+    }
+    cout << src << endl;
 
     return maxbw;
 }
@@ -133,6 +142,7 @@ int MaxBwDijkstra::Dijkstra(int src, int dest, int * path)
 {
     int maxbw = 0;
     // int i = 0;
+    int j = 0;
     int v = 0;
     int count = 0; // fringer count
 
@@ -199,7 +209,15 @@ int MaxBwDijkstra::Dijkstra(int src, int dest, int * path)
 
     maxbw = bwidth[dest];
 
-    path = dad;
+    // Print the path
+    j = dest;
+    while (dad[j] != src)
+    {
+        j = dad[j];
+        // print the path in reverse order
+        cout << j << "<-" << endl;
+    }
+    cout << src << endl;
 
     return maxbw;
 }
