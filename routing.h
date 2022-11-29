@@ -20,8 +20,8 @@ using namespace std;
 // The type of vertex:
 enum v_type {
     unseen = 0, // Init state of vertex
-    intray, // The vertex we use to begin with and explore its neighbor 
-    fringer, // The vertex that is neighbored to intray vertex
+    intree, // The vertex we use to begin with and explore its neighbor 
+    fringer, // The vertex that is neighbored to intree vertex
 };
 
 class MaxBwDijkstra
@@ -43,6 +43,12 @@ private:
     int * H;
     int * D;
 
+    int Dijkstra_wHeap(int src, int dest, int * path);
+
+    int Dijkstra(int src, int dest, int * path);
+
+    int getLargestFringer();
+
 public:
     // Constructors
     MaxBwDijkstra();
@@ -53,6 +59,8 @@ public:
     ~MaxBwDijkstra();
 
     int findMaxBWPath(int src, int dest, int * maxPath);
+
+
 
 };
 
