@@ -136,7 +136,7 @@ bool Stack::push(int x)
     else 
     {
         stack[++top] = x;
-        cout << x << endl;
+        // cout << x << endl;
         ret = true;
     }
     return ret;

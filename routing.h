@@ -48,7 +48,8 @@ private:
     int Dijkstra(int src, int dest);
 
     int getLargestFringer();
-
+    
+    // Print the resulting path
     void printPath(int src, int dest);
 
 public:
@@ -94,6 +95,9 @@ private:
 
     // Find the Max BW Path using DFS
     int DFS();
+
+    // Print the resulting path
+    void printPath(int src, int dest);
 public:
     // Constructors
     MaxBwKruskal();

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#define DEBUG_MAIN  0
+#define DEBUG_MAIN  1
 
 #define VERTEX_NUM  5000
 
@@ -42,17 +42,41 @@ int main()
     // Stop measuring time and calculate the elapsed time
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-    cout << "Time measured: " << elapsed.count() * 1e-3 << "milli-second." << endl;
+    cout << "Time: " << elapsed.count() * 1e-3 << "us." << endl;
+
+
+    // Start measuring time
+    begin = std::chrono::high_resolution_clock::now();
 
     MaxBwDijkstra * array_dijkstra = new MaxBwDijkstra(graph, false);
     array_dijkstra->findMaxBWPath(src, dest);
 
+    // Stop measuring time and calculate the elapsed time
+    end = std::chrono::high_resolution_clock::now();
+    elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+    cout << "Time: " << elapsed.count() * 1e-3 << "us." << endl;
+
+    // Start measuring time
+    begin = std::chrono::high_resolution_clock::now();
+
     MaxBwDijkstra * heap_dijkstra_2 = new MaxBwDijkstra(graph2, true);
     heap_dijkstra_2->findMaxBWPath(src, dest);
+        
+    // Stop measuring time and calculate the elapsed time
+    end = std::chrono::high_resolution_clock::now();
+    elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+    cout << "Time: " << elapsed.count() * 1e-3 << "us." << endl;
 
+
+    // Start measuring time
+    begin = std::chrono::high_resolution_clock::now();
     MaxBwKruskal * kruskal = new MaxBwKruskal(graph);
     kruskal->findMaxBWPath(src, dest);
 
+    // Stop measuring time and calculate the elapsed time
+    end = std::chrono::high_resolution_clock::now();
+    elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+    cout << "Time: " << elapsed.count() * 1e-3 << "us." << endl;
 
 
 #if DEBUG_MAIN

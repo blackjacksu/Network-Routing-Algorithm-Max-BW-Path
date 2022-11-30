@@ -355,10 +355,14 @@ void MaxBwKruskal::KruskalMST()
     int size;
     int j = 0;
     int u, v;
-    Vertex ** h = nullptr;
+    Vertex ** h = new Vertex * [vertex_num]();
     // Add edges in non decresing order
     Edge * edges = G->getEdgeList(size);
-
+    
+    for (i = 0; i < vertex_num; i++)
+    {
+        makeSet(i);
+    }
 
     for (i = 0; i < vertex_num; i++)
     {
@@ -391,5 +395,26 @@ void MaxBwKruskal::KruskalMST()
             unionSet(u, v);
             MST->addEdge(u, v, edges[j].weight);
         }
+    }
+}
+
+void MaxBwKruskal::printPath(int src, int dest)
+{
+    // Print the path
+    int j = dest;
+    int pop = 0;
+    Stack stk;
+
+    while (dad[j] != src)
+    {
+        j = dad[j];
+        stk.push(j);
+    }
+    cout << src;
+    while (!stk.isEmpty())
+    {
+        pop = stk.pop();
+        cout << "->";
+        cout << pop;
     }
 }
