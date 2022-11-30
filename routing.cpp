@@ -264,26 +264,65 @@ MaxBwKruskal::MaxBwKruskal(Graph * g)
     dad = new int [vertex_num];
     rank = new int [vertex_num];
 
+    mst_status = new v_type[vertex_num] {unseen};
+    mst_dad = new int[vertex_num];
+    // fill_n(mst_dad, sizeof(int) * vertex_num, -1);
+    mst_bwidth = new int[vertex_num];
+    // fill_n(mst_bwidth, sizeof(int) * vertex_num, -1);
+
     for (i = 0; i < vertex_num; i++)
     {
         dad[i] = INT32_MIN;
         rank[i] = INT32_MIN;
+        
+        mst_dad[i] = INT32_MIN;
+        mst_bwidth[i] = 0;
     }
     Heap = new MaxHeap[edge_num];
 }
 
 int MaxBwKruskal::findMaxBWPath(int src, int dest)
 {
+    int maxbw = INT32_MAX;
+    int i = dest;
     KruskalMST();
 
-    DFS();
+    DFS(src);
 
-    return 0;
+    // Extract the max bw
+    while (mst_dad[i] != src)
+    {
+        maxbw = findmin(maxbw, mst_bwidth[i]);
+        i = mst_dad[i];
+    }
+
+    // Print the max bw path
+    printPath(src, dest, mst_dad);
+
+    return maxbw;
 }
 
-int MaxBwKruskal::DFS()
+void MaxBwKruskal::DFS(int s)
 {
-    return 0;
+    mst_status[s] = fringer;
+
+    // Get neighbor vertex of src
+    Vertex * ptr = G->getAdjList(s);
+    
+    // Init the neighbor of src as fringer
+    while (ptr != NULL)
+    {
+        if (mst_status[ptr->val] == unseen)
+        {
+            mst_dad[ptr->val] = s;
+            mst_bwidth[ptr->val] = ptr->cost;
+            DFS(ptr->val);
+        }
+
+        ptr = ptr->next;
+    }
+
+    mst_status[s] = intree;
 }
 
 MaxBwKruskal::~MaxBwKruskal()
@@ -355,7 +394,7 @@ void MaxBwKruskal::KruskalMST()
     int size;
     int j = 0;
     int u, v;
-    Vertex ** h = new Vertex * [vertex_num]();
+    Vertex ** V = new Vertex * [vertex_num]();
     // Add edges in non decresing order
     Edge * edges = G->getEdgeList(size);
     
@@ -366,7 +405,7 @@ void MaxBwKruskal::KruskalMST()
 
     for (i = 0; i < vertex_num; i++)
     {
-        h[i] = G->getAdjList(i);
+        V[i] = G->getAdjList(i);
     }
 
     if (size != edge_num)
@@ -398,18 +437,20 @@ void MaxBwKruskal::KruskalMST()
     }
 }
 
-void MaxBwKruskal::printPath(int src, int dest)
+void MaxBwKruskal::printPath(int src, int dest, int * d)
 {
     // Print the path
     int j = dest;
     int pop = 0;
     Stack stk;
+    int * parent = d;
 
-    while (dad[j] != src)
+    while (parent[j] != src)
     {
-        j = dad[j];
+        j = parent[j];
         stk.push(j);
     }
+
     cout << src;
     while (!stk.isEmpty())
     {

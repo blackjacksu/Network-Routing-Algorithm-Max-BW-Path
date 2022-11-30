@@ -70,11 +70,16 @@ class MaxBwKruskal
 private:
     Graph * G;
     Graph * MST;
+    Vertex ** V;
     int vertex_num;
     int edge_num;
 
     int * dad;
     int * rank;
+
+    v_type * mst_status;
+    int * mst_bwidth;
+    int * mst_dad;
 
     // Use max heap to sort edges
     MaxHeap * Heap;
@@ -94,10 +99,10 @@ private:
     void KruskalMST();
 
     // Find the Max BW Path using DFS
-    int DFS();
+    void DFS(int s);
 
     // Print the resulting path
-    void printPath(int src, int dest);
+    void printPath(int src, int dest, int * d);
 public:
     // Constructors
     MaxBwKruskal();
