@@ -66,11 +66,15 @@ class MaxBwKruskal
 {
 private:
     Graph * G;
+    Graph * MST;
     int vertex_num;
     int edge_num;
 
     int * dad;
     int * rank;
+
+    // Use max heap to sort edges
+    MaxHeap * Heap;
 
     // Disjoint set operation:
     // Create a set whose only member is x

@@ -37,21 +37,7 @@ Graph::Graph(int N)
     // add edges to the directed graph
     for (unsigned i = 0; i < this->M; i++)
     {
-        int src = edges[i].src;
-        int dest = edges[i].dest;
-        int weight = edges[i].weight;
-
-        // Insert at the beginning for src vertex
-        Vertex * newVertex = insertNewVertexAtHead(dest, weight, head[src]);
-
-        // To-Do: point head pointer to the new node
-        head[src] = newVertex;
-
-        // Insert at the beginning for dest vertex
-        newVertex = insertNewVertexAtHead(src, weight, head[dest]);
-
-        // To-Do: change head pointer to point to the new node
-        head[dest] = newVertex;
+        connectVertices(edges[i]);
     }
 }
 
@@ -252,6 +238,23 @@ Graph::Graph(int N, enum type t)
     }
 }
 
+Graph::Graph(int N, enum type t, int M)
+{
+    int i = 0;
+    this->N = N;
+    this->M = M;
+    edges = new Edge[M];
+    head = new Vertex*[N]();
+    
+    // initialize head pointer for all vertices
+    for (int i = 0; i < N; i++) 
+    {
+        head[i] = nullptr;
+    }
+
+    edges_count = 0;
+}
+
 Graph::~Graph() 
 {
     for (int i = 0; i < N; i++) 
@@ -391,6 +394,48 @@ Vertex * Graph::getAdjList(int v)
     // Bug: when v >= N, will not return
     return NULL;
 }
+
+Edge * Graph::getEdgeList(int &size)
+{
+    size = M;
+    return edges;
+}
+
+int Graph::addEdge(int src, int dest, int weight)
+{
+    Edge edge;
+    int i = edges_count;
+    edge.src = src;
+    edge.dest = dest;
+    edge.weight = weight;
+    
+
+    if (edges_count > M)
+    {
+        cout << "Error: exceed the maximum edges number" << endl;
+        return -1;
+    }
+    
+    bool isvalid = isEdgeValid(edge, i);
+
+    if (isvalid == true)
+    {
+        // if edge is valid, connect the edges
+        connectVertices(edges[i]);
+
+        i++;
+    }
+
+    edges_count = i;
+    
+    // Successful add the edge
+    return 0;
+}
+
+// Vertex ** getHead()
+// {
+//     return head[0];
+// }
 
 bool Graph::isBipartite()
 {

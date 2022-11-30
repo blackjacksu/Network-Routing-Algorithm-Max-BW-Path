@@ -39,6 +39,8 @@ MaxBwDijkstra::~MaxBwDijkstra()
     delete [] status;
     delete [] dad;
     delete [] bwidth;
+
+    delete(G);
 }
 
 int MaxBwDijkstra::findMaxBWPath(int src, int dest, int * maxPath)
@@ -241,6 +243,39 @@ int MaxBwDijkstra::getLargestFringer()
 }
 
 // Kruskal Maximum Bandwidth Path
+MaxBwKruskal::MaxBwKruskal()
+{
+
+}
+
+MaxBwKruskal::MaxBwKruskal(Graph * g)
+{
+    int i;
+    G = g;
+    vertex_num = G->getEdgeNum();
+    edge_num = G->getEdgeNum();
+    MST = new Graph(vertex_num, type_1, edge_num);
+
+    dad = new int [vertex_num];
+    rank = new int [vertex_num];
+
+    for (i = 0; i < vertex_num; i++)
+    {
+        dad[i] = INT32_MIN;
+        rank[i] = INT32_MIN;
+    }
+    Heap = new MaxHeap[edge_num];
+}
+
+MaxBwKruskal::~MaxBwKruskal()
+{
+    delete []Heap;
+    delete []rank;
+    delete []dad;
+
+    delete(G);
+    delete(MST);
+}
 
 void MaxBwKruskal::makeSet(int x)
 {
@@ -289,35 +324,52 @@ int MaxBwKruskal::find(int x)
     if (dad[x] == x) {
         return x;
     }
-    else {
+    else 
+    {
         return find(dad[x]);
     }
 }
 
-MaxBwKruskal::MaxBwKruskal()
+void MaxBwKruskal::KruskalMST()
 {
+    int i = 0;
+    int size;
+    int j = 0;
+    int u, v;
+    Vertex ** h = nullptr;
+    // Add edges in non decresing order
+    Edge * edges = G->getEdgeList(size);
 
-}
-
-MaxBwKruskal::MaxBwKruskal(Graph * g)
-{
-    int i;
-    G = g;
-    vertex_num = G->getEdgeNum();
-    edge_num = G->getEdgeNum();
-
-    dad = new int [vertex_num];
-    rank = new int [vertex_num];
 
     for (i = 0; i < vertex_num; i++)
     {
-        dad[i] = INT32_MIN;
-        rank[i] = INT32_MIN;
+        h[i] = G->getAdjList(i);
     }
 
-}
+    if (size != edge_num)
+    {
+        // Examine the case
+        // Should not happen
+        cout << "Error: The size should be the same." << endl;
+    }
 
-MaxBwKruskal::~MaxBwKruskal()
-{
+    for (i = 0; i < size; i++)
+    {
+        Heap->insertNode(i, edges[i].weight);
+    }
+    
+    while (!Heap->isEmpty())
+    {
+        j = Heap->getMax();
+        Heap->removeMax();
 
+        u = edges[j].src;
+        v = edges[j].dest;
+
+        if (find(u) != find(v))
+        {
+            // Add the edge to MST 
+            MST->addEdge(u, v, edges[j].weight);
+        }
+    }
 }

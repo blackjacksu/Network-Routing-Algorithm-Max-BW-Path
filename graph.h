@@ -60,8 +60,10 @@ private:
 
     // Total number of vertices
     int N;   
+    int vertex_count;
     // Total number of edges 
     int M;
+    int edges_count;
     // Random seed 
     int seed;
 
@@ -91,6 +93,9 @@ public:
 
     // Constructor by graph type
     Graph(int N, enum type t);
+
+    // Constructor for MST
+    Graph(int N, enum type t, int M);
  
     // Destructor
     ~Graph();
@@ -106,6 +111,15 @@ public:
 
     // Function to get adjacency list
     Vertex * getAdjList(int v);
+
+    // Function to get edges
+    Edge * getEdgeList(int &size);
+
+    // Function to add edges
+    int addEdge(int src, int dest, int weight);
+
+    // // Function to get head
+    // Vertex * getHead();
 
     // To-Do: check graph bipartiteness
     bool isBipartite();
