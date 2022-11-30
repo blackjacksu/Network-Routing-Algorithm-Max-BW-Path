@@ -15,6 +15,7 @@ using namespace std;
 
 #define DATA_SIZE_MAX    10000
 #define HEAP_SIZE_MAX   DATA_SIZE_MAX
+#define STACK_SIZE_MAX  DATA_SIZE_MAX
 
 #define left(i)     ((i << 1) + 1) // (2 * i + 1)
 #define right(i)    ((i << 1) + 2) // (2 * i + 2)
@@ -56,6 +57,28 @@ public:
     int getMax();
     
     // Emptiness of heap 
+    bool isEmpty();
+};
+
+
+class Stack
+{
+private:
+    int top;
+public:
+    // Array method implemented stack
+    int stack[STACK_SIZE_MAX];
+     
+    // Constructor
+    Stack();
+
+    // Push to stack
+    bool push(int x);
+
+    // Pop from stack
+    int pop();
+
+    // Check the emptiness of stack
     bool isEmpty();
 };
 

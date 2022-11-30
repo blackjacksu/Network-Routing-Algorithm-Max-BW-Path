@@ -4,7 +4,7 @@ GCC_OPTIONS = -Wall -g3 -std=c++11 -c
 all: main.o graph.o routing.o datastruct.o
 	g++ -o Graphs main.o graph.o routing.o datastruct.o
 
-main.o: main.cpp
+main.o: main.cpp graph.h  routing.h
 	$(GCC) $(GCC_OPTIONS) main.cpp
 
 graph.o: graph.cpp graph.h

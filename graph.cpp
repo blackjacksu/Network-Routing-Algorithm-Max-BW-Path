@@ -240,7 +240,6 @@ Graph::Graph(int N, enum type t)
 
 Graph::Graph(int N, enum type t, int M)
 {
-    int i = 0;
     this->N = N;
     this->M = M;
     edges = new Edge[M];

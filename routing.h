@@ -43,11 +43,13 @@ private:
     int * H;
     int * D;
 
-    int Dijkstra_wHeap(int src, int dest, int * path);
+    int Dijkstra_wHeap(int src, int dest);
 
-    int Dijkstra(int src, int dest, int * path);
+    int Dijkstra(int src, int dest);
 
     int getLargestFringer();
+
+    void printPath(int src, int dest);
 
 public:
     // Constructors
@@ -59,7 +61,7 @@ public:
     ~MaxBwDijkstra();
 
     // Find the max bandwidth path from src to dest
-    int findMaxBWPath(int src, int dest, int * maxPath);
+    int findMaxBWPath(int src, int dest);
 };
 
 class MaxBwKruskal
@@ -89,6 +91,9 @@ private:
 
     // Kruskal Maximum Spanning Tree 
     void KruskalMST();
+
+    // Find the Max BW Path using DFS
+    int DFS();
 public:
     // Constructors
     MaxBwKruskal();
@@ -98,7 +103,7 @@ public:
     ~MaxBwKruskal();
 
     // Find the max bandwidth path from src to dest
-    int findMaxBWPath(int src, int dest, int * maxPath);
+    int findMaxBWPath(int src, int dest);
 };
 
 

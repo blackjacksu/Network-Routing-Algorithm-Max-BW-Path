@@ -43,27 +43,26 @@ MaxBwDijkstra::~MaxBwDijkstra()
     delete(G);
 }
 
-int MaxBwDijkstra::findMaxBWPath(int src, int dest, int * maxPath)
+int MaxBwDijkstra::findMaxBWPath(int src, int dest)
 {
     int ret = 0;
 
     if (w_heap == true)
     {
-        ret = Dijkstra_wHeap(src, dest, maxPath);
+        ret = Dijkstra_wHeap(src, dest);
     }
     else
     {
-        ret = Dijkstra(src, dest, maxPath);
+        ret = Dijkstra(src, dest);
     }
 
     return ret;
 }
 
-int MaxBwDijkstra::Dijkstra_wHeap(int src, int dest, int * path)
+int MaxBwDijkstra::Dijkstra_wHeap(int src, int dest)
 {
     int maxbw = 0;
     int i = 0;
-    int j = 0;
     int v = 0;
 
     status[src] = intree;
@@ -128,23 +127,15 @@ int MaxBwDijkstra::Dijkstra_wHeap(int src, int dest, int * path)
     maxbw = bwidth[dest];
 
     // Print the path
-    j = dest;
-    while (dad[j] != src)
-    {
-        j = dad[j];
-        // print the path in reverse order
-        cout << j << "<-" << endl;
-    }
-    cout << src << endl;
+    printPath(src, dest);
 
     return maxbw;
 }
 
-int MaxBwDijkstra::Dijkstra(int src, int dest, int * path)
+int MaxBwDijkstra::Dijkstra(int src, int dest)
 {
     int maxbw = 0;
     // int i = 0;
-    int j = 0;
     int v = 0;
     int count = 0; // fringer count
 
@@ -212,14 +203,7 @@ int MaxBwDijkstra::Dijkstra(int src, int dest, int * path)
     maxbw = bwidth[dest];
 
     // Print the path
-    j = dest;
-    while (dad[j] != src)
-    {
-        j = dad[j];
-        // print the path in reverse order
-        cout << j << "<-" << endl;
-    }
-    cout << src << endl;
+    printPath(src, dest);
 
     return maxbw;
 }
@@ -240,6 +224,27 @@ int MaxBwDijkstra::getLargestFringer()
         }
     }
     return maxfringerid;
+}
+
+void MaxBwDijkstra::printPath(int src, int dest)
+{
+    // Print the path
+    int j = dest;
+    int pop = 0;
+    Stack stk;
+
+    while (dad[j] != src)
+    {
+        j = dad[j];
+        stk.push(j);
+    }
+    cout << src;
+    while (!stk.isEmpty())
+    {
+        pop = stk.pop();
+        cout << "->";
+        cout << pop;
+    }
 }
 
 // Kruskal Maximum Bandwidth Path
@@ -265,6 +270,20 @@ MaxBwKruskal::MaxBwKruskal(Graph * g)
         rank[i] = INT32_MIN;
     }
     Heap = new MaxHeap[edge_num];
+}
+
+int MaxBwKruskal::findMaxBWPath(int src, int dest)
+{
+    KruskalMST();
+
+    DFS();
+
+    return 0;
+}
+
+int MaxBwKruskal::DFS()
+{
+    return 0;
 }
 
 MaxBwKruskal::~MaxBwKruskal()
@@ -369,6 +388,7 @@ void MaxBwKruskal::KruskalMST()
         if (find(u) != find(v))
         {
             // Add the edge to MST 
+            unionSet(u, v);
             MST->addEdge(u, v, edges[j].weight);
         }
     }

@@ -122,3 +122,46 @@ void MaxHeap::removeNode(int x)
         cout << "No element in heap" << endl;
     }
 }
+
+//pushes element on to the stack
+bool Stack::push(int x)
+{
+    bool ret = false;
+
+    if (top >= (STACK_SIZE_MAX - 1)) 
+    {
+        cout << "Stack Overflow!";
+        ret = false;
+    }
+    else 
+    {
+        stack[++top] = x;
+        cout << x << endl;
+        ret = true;
+    }
+    return ret;
+}
+
+Stack::Stack() 
+{ 
+    top = -1; 
+}
+  
+//removes or pops elements out of the stack
+int Stack::pop()
+{
+    if (top < 0) {
+        cout << "Stack Underflow!";
+        return 0;
+    }
+    else {
+        int x = stack[top--];
+        return x;
+    }
+}
+  
+//check if stack is empty
+bool Stack::isEmpty()
+{
+    return (top < 0);
+}
