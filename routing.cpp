@@ -245,6 +245,7 @@ void MaxBwDijkstra::printPath(int src, int dest)
         cout << "->";
         cout << pop;
     }
+    cout << endl;
 }
 
 // Kruskal Maximum Bandwidth Path

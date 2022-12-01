@@ -1,5 +1,7 @@
 #include "graph.h"
 
+bool Graph::seeded = false;
+
 Graph::Graph()
 {
     int i = 0;
@@ -55,7 +57,11 @@ Graph::Graph(int N, enum type t)
     bool isallconnected = false;
     // Providing a seed value
 #if ENABLE_RANDOMESS
-	srand((unsigned) time(NULL));
+    if (!seeded)
+    {
+	    srand(time(NULL));
+        seeded = true;
+    }
 #endif
 
     // initialize head pointer for all vertices
@@ -86,25 +92,43 @@ Graph::Graph(int N, enum type t)
                     edges[i].src = src_prev;
                     edges[i].dest = src_begin;
                     edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
+
+                    isvalid = isEdgeValid(edges[i], i);
+
+                    if (isvalid == true)
+                    {
+                        // This is the stage where we are still constructing cycle
+                        // Last dest become next src
+                        src_prev = edges[i].dest;
+
+                        connectVertices(edges[i]);
+
+                        i++;
+                    }
+                    else
+                    {
+                        // The vertices is already connected
+                        break;
+                    }
                 }
                 else
                 {
                     edges[i].src = src_prev;
                     edges[i].dest = rand() % N;
                     edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
-                }
 
-                isvalid = isEdgeValid(edges[i], i);
+                    isvalid = isEdgeValid(edges[i], i);
 
-                if (isvalid == true)
-                {
-                    // This is the stage where we are still constructing cycle
-                    // Last dest become next src
-                    src_prev = edges[i].dest;
+                    if (isvalid == true)
+                    {
+                        // This is the stage where we are still constructing cycle
+                        // Last dest become next src
+                        src_prev = edges[i].dest;
 
-                    connectVertices(edges[i]);
-                    
-                    i++;
+                        connectVertices(edges[i]);
+
+                        i++;
+                    }
                 }
             }
 
@@ -170,25 +194,43 @@ Graph::Graph(int N, enum type t)
                     edges[i].src = src_prev;
                     edges[i].dest = src_begin;
                     edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
+
+                    isvalid = isEdgeValid(edges[i], i);
+
+                    if (isvalid == true)
+                    {
+                        // This is the stage where we are still constructing cycle
+                        // Last dest become next src
+                        src_prev = edges[i].dest;
+
+                        connectVertices(edges[i]);
+
+                        i++;
+                    }
+                    else
+                    {
+                        // The vertices is already connected
+                        break;
+                    }
                 }
                 else
                 {
                     edges[i].src = src_prev;
                     edges[i].dest = rand() % N;
                     edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
-                }
 
-                isvalid = isEdgeValid(edges[i], i);
+                    isvalid = isEdgeValid(edges[i], i);
 
-                if (isvalid == true)
-                {
-                    // This is the stage where we are still constructing cycle
-                    // Last dest become next src
-                    src_prev = edges[i].dest;
+                    if (isvalid == true)
+                    {
+                        // This is the stage where we are still constructing cycle
+                        // Last dest become next src
+                        src_prev = edges[i].dest;
 
-                    connectVertices(edges[i]);
-                    
-                    i++;
+                        connectVertices(edges[i]);
+
+                        i++;
+                    }
                 }
             }
 
@@ -391,7 +433,7 @@ Vertex * Graph::getAdjList(int v)
         return head[v];
     }
     // Bug: when v >= N, will not return
-    return NULL;
+    return nullptr;
 }
 
 Edge * Graph::getEdgeList(int &size)

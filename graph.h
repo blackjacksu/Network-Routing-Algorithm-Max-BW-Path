@@ -12,7 +12,7 @@
 using namespace std;
 
 #define DEBUG_GRAPH     0
-#define ENABLE_RANDOMESS    0
+#define ENABLE_RANDOMESS    1
 
 #define HUNDRED_PERCENT 100 // (%)
 
@@ -66,6 +66,7 @@ private:
     int edges_count;
     // Random seed 
     int seed;
+    static bool seeded;
 
     // Function to allocate a new vertex for the adjacency list
     // To-Do: Temperarily work around, but why??

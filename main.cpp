@@ -26,16 +26,27 @@ int main()
 #else
     int N = VERTEX_NUM;
 #endif
-    int i;
+    int i = 0;
     int j;
     int src[TEST_SRC_DEST_NUM];
     int dest[TEST_SRC_DEST_NUM];
 
+    srand(time(NULL));
+
     // Randomly pick 5 pairs of source vertex and destination vertex
-    for (i = 0; i < TEST_SRC_DEST_NUM; i++)
+    while (i < TEST_SRC_DEST_NUM)
     {
-        src[i] = random() % N;
-        dest[i] = random() % N;
+        src[i] = rand() % N;
+        dest[i] = rand() % N;
+
+        if (src[i] == dest[i])
+        {
+            continue;
+        }
+        else
+        {
+            i++;
+        }
     }
 
     Graph * graph1[TEST_GRAPH_NUM];
@@ -91,24 +102,30 @@ int main()
     MaxBwDijkstra * heap_dijkstra;
     MaxBwKruskal * kruskal;
 
+    auto begin = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+
     for (i = 0; i < TEST_GRAPH_NUM; i++)
     {
         for (j = 0; j < TEST_SRC_DEST_NUM; j++)
         {
             // Test - 1: Use Dijkstra without heap on type 1 Graph -------------
-            auto begin = std::chrono::high_resolution_clock::now();
+            cout << "Dijkstra w/o heap on type 1 graph (s, t) = (" << src[i] << ", " << dest[i] << ") " << endl;
+            begin = std::chrono::high_resolution_clock::now();
 
             array_dijkstra = new MaxBwDijkstra(graph1[i], false);
             array_dijkstra->findMaxBWPath(src[j], dest[j]);
 
-            auto end = std::chrono::high_resolution_clock::now();
-            auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-            cout << "Time: " << elapsed.count() * 1e-3 << "us." << endl;
+            end = std::chrono::high_resolution_clock::now();
+            elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+            cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
 
             delete(array_dijkstra);
-            // Test - 1: End ---------------------------------------------------
+            // Test - 1: End ------------------------------------------------
 
             // Test - 2: Use Dijkstra with heap on type 1 Graph -------------
+            cout << "Dijkstra w/ heap on type 1 graph (s, t) = (" << src[i] << ", " << dest[i] << ") " << endl;
             begin = std::chrono::high_resolution_clock::now();
 
             heap_dijkstra = new MaxBwDijkstra(graph1[i], true);
@@ -116,12 +133,13 @@ int main()
 
             end = std::chrono::high_resolution_clock::now();
             elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-            cout << "Time: " << elapsed.count() * 1e-3 << "us." << endl;
+            cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
 
             delete(heap_dijkstra);
             // Test - 2: End ---------------------------------------------------
 
             // Test - 3: Use Kruskal with heap on type 1 Graph -----------------
+            cout << "Kruskal on type 1 graph (s, t) = (" << src[i] << ", " << dest[i] << ") " << endl;
             begin = std::chrono::high_resolution_clock::now();
 
             kruskal = new MaxBwKruskal(graph1[i]);
@@ -130,12 +148,13 @@ int main()
             // Stop measuring time and calculate the elapsed time
             end = std::chrono::high_resolution_clock::now();
             elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-            cout << "Time: " << elapsed.count() * 1e-3 << "us." << endl;
+            cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
 
             delete(kruskal);
             // Test - 3: End ---------------------------------------------------
             
-            // Test - 4: Use Dijkstra without heap on type 2 Graph ----------------
+            // Test - 4: Use Dijkstra without heap on type 2 Graph -------------
+            cout << "Dijkstra w/o heap on type 2 graph (s, t) = (" << src[i] << ", " << dest[i] << ") " << endl;
             begin = std::chrono::high_resolution_clock::now();
 
             array_dijkstra = new MaxBwDijkstra(graph2[i], true);
@@ -143,12 +162,13 @@ int main()
 
             end = std::chrono::high_resolution_clock::now();
             elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-            cout << "Time: " << elapsed.count() * 1e-3 << "us." << endl;
+            cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
 
             delete(array_dijkstra);
             // Test - 4: End ---------------------------------------------------
 
             // Test - 5: Use Dijkstra with heap on type 2 Graph ----------------
+            cout << "Dijkstra w/ heap on type 2 graph (s, t) = (" << src[i] << ", " << dest[i] << ") " << endl;
             begin = std::chrono::high_resolution_clock::now();
 
             heap_dijkstra = new MaxBwDijkstra(graph2[i], true);
@@ -156,24 +176,24 @@ int main()
 
             end = std::chrono::high_resolution_clock::now();
             elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-            cout << "Time: " << elapsed.count() * 1e-3 << "us." << endl;
+            cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
 
             delete(heap_dijkstra);
             // Test - 5: End ---------------------------------------------------
             
-            // Test - 3: Use Kruskal with heap on type 2 Graph -----------------
+            // Test - 6: Use Kruskal on type 2 Graph ---------------------------
+            cout << "Kruskal on type 2 graph (s, t) = (" << src[i] << ", " << dest[i] << ") " << endl;
             begin = std::chrono::high_resolution_clock::now();
             
             kruskal = new MaxBwKruskal(graph2[i]);
             kruskal->findMaxBWPath(src[j], dest[j]);
 
-            // Stop measuring time and calculate the elapsed time
             end = std::chrono::high_resolution_clock::now();
             elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-            cout << "Time: " << elapsed.count() * 1e-3 << "us." << endl;
+            cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
 
             delete(kruskal);
-            // Test - 3: End ---------------------------------------------------
+            // Test - 6: End ---------------------------------------------------
         }
     }
 
