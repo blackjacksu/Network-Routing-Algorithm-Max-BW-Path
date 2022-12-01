@@ -25,13 +25,13 @@ int main()
     int N = 10;
 #else
     int N = VERTEX_NUM;
+    srand(time(NULL));
 #endif
     int i = 0;
     int j;
     int src[TEST_SRC_DEST_NUM];
     int dest[TEST_SRC_DEST_NUM];
 
-    srand(time(NULL));
 
     // Randomly pick 5 pairs of source vertex and destination vertex
     while (i < TEST_SRC_DEST_NUM)
