@@ -12,7 +12,7 @@
 using namespace std;
 
 #define DEBUG_GRAPH     0
-#define ENABLE_RANDOMESS    1
+#define ENABLE_RANDOMESS    0
 
 #define HUNDRED_PERCENT 100 // (%)
 

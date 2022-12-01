@@ -39,10 +39,6 @@ private:
     bool w_heap;
     MaxHeap * Heap;
 
-    // Without heap
-    int * H;
-    int * D;
-
     int Dijkstra_wHeap(int src, int dest);
 
     int Dijkstra(int src, int dest);

@@ -34,13 +34,9 @@ MaxBwDijkstra::~MaxBwDijkstra()
 {
     delete Heap;
     
-    delete [] H;
-    delete [] D;
     delete [] status;
     delete [] dad;
     delete [] bwidth;
-
-    delete(G);
 }
 
 int MaxBwDijkstra::findMaxBWPath(int src, int dest)
@@ -245,7 +241,7 @@ void MaxBwDijkstra::printPath(int src, int dest)
         cout << "->";
         cout << pop;
     }
-    cout << endl;
+    cout << "->" << dest << endl;
 }
 
 // Kruskal Maximum Bandwidth Path
@@ -280,6 +276,17 @@ MaxBwKruskal::MaxBwKruskal(Graph * g)
         mst_bwidth[i] = 0;
     }
     Heap = new MaxHeap[edge_num];
+}
+
+MaxBwKruskal::~MaxBwKruskal()
+{
+    delete []Heap;
+    delete []rank;
+    delete []dad;
+    delete(MST);
+    delete []mst_status;
+    delete []mst_dad;
+    delete []mst_bwidth;
 }
 
 int MaxBwKruskal::findMaxBWPath(int src, int dest)
@@ -324,16 +331,6 @@ void MaxBwKruskal::DFS(int s)
     }
 
     mst_status[s] = intree;
-}
-
-MaxBwKruskal::~MaxBwKruskal()
-{
-    delete []Heap;
-    delete []rank;
-    delete []dad;
-
-    delete(G);
-    delete(MST);
 }
 
 void MaxBwKruskal::makeSet(int x)
@@ -459,4 +456,5 @@ void MaxBwKruskal::printPath(int src, int dest, int * d)
         cout << "->";
         cout << pop;
     }
+    cout << "->" << dest << endl;
 }
