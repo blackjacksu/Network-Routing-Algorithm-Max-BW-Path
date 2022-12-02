@@ -32,8 +32,10 @@ MaxBwDijkstra::MaxBwDijkstra(Graph * g, bool w_heap)
 
 MaxBwDijkstra::~MaxBwDijkstra()
 {
-    delete Heap;
-    
+    if (this->w_heap == true)
+    {
+        delete Heap;
+    }
     delete [] status;
     delete [] dad;
     delete [] bwidth;
@@ -275,12 +277,12 @@ MaxBwKruskal::MaxBwKruskal(Graph * g)
         mst_dad[i] = INT32_MIN;
         mst_bwidth[i] = 0;
     }
-    Heap = new MaxHeap[edge_num];
+    Heap = new MaxHeap();
 }
 
 MaxBwKruskal::~MaxBwKruskal()
 {
-    delete []Heap;
+    delete Heap;
     delete []rank;
     delete []dad;
     delete(MST);

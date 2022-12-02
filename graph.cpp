@@ -328,7 +328,7 @@ bool Graph::isEdgeValid(Edge edge, int idx)
     bool isvalid = true;
     int j = 0;
     // Check invalid edge and regenerate again
-    if (edges[idx].src == edges[idx].dest)
+    if (edge.src == edge.dest)
     {
         // Invalid undirected edge
         // self to self
@@ -338,10 +338,10 @@ bool Graph::isEdgeValid(Edge edge, int idx)
     {
         for (j = 0; j < idx; j++)
         {
-            if ((edges[j].src == edges[idx].src 
-                && edges[j].dest == edges[idx].dest) 
-                || (edges[j].src == edges[idx].dest 
-                && edges[j].dest == edges[idx].src))
+            if ((edges[j].src == edge.src 
+                && edges[j].dest == edge.dest) 
+                || (edges[j].src == edge.dest 
+                && edges[j].dest == edge.src))
             {
                 // Check previous generated edges
                 // Invalid edges: duplicate edges w/ different weight
@@ -462,7 +462,7 @@ int Graph::addEdge(int src, int dest, int weight)
     if (isvalid == true)
     {
         // if edge is valid, connect the edges
-        connectVertices(edges[i]);
+        connectVertices(edge);
 
         i++;
     }
