@@ -13,7 +13,7 @@ using namespace std;
 
 #define DEBUG_DATA_STRUCT   0
 
-#define DATA_SIZE_MAX    10000
+#define DATA_SIZE_MAX    5000000
 #define HEAP_SIZE_MAX   DATA_SIZE_MAX
 #define STACK_SIZE_MAX  DATA_SIZE_MAX
 

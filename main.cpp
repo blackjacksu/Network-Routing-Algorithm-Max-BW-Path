@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#define DEBUG_MAIN  1
+#define DEBUG_MAIN  0
 #define TEST_GRAPH_NUM  5
 #define TEST_SRC_DEST_NUM   5
 
@@ -55,7 +55,9 @@ int main()
     for (i = 0; i < TEST_GRAPH_NUM; i++)
     {
         graph1[i] = new Graph(N, type_1);
+        cout << "Graph " << i + 1 << ", type 1, generated." << endl;
         graph2[i] = new Graph(N, type_2);
+        cout << "Graph " << i + 1 << ", type 2, generated." << endl;
     }
 
 #if DEBUG_MAIN
@@ -106,6 +108,8 @@ int main()
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
 
+    int maxbw = 0;
+
     for (i = 0; i < TEST_GRAPH_NUM; i++)
     {
         for (j = 0; j < TEST_SRC_DEST_NUM; j++)
@@ -115,11 +119,13 @@ int main()
             begin = std::chrono::high_resolution_clock::now();
 
             array_dijkstra = new MaxBwDijkstra(graph1[i], false);
-            array_dijkstra->findMaxBWPath(src[j], dest[j]);
+            maxbw = array_dijkstra->findMaxBWPath(src[j], dest[j]);
 
             end = std::chrono::high_resolution_clock::now();
             elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+            cout << "Bandwidth: " << maxbw << endl;
             cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
+            cout << endl;
 
             delete(array_dijkstra);
             // Test - 1: End ------------------------------------------------
@@ -129,11 +135,13 @@ int main()
             begin = std::chrono::high_resolution_clock::now();
 
             heap_dijkstra = new MaxBwDijkstra(graph1[i], true);
-            heap_dijkstra->findMaxBWPath(src[j], dest[j]);
+            maxbw = heap_dijkstra->findMaxBWPath(src[j], dest[j]);
 
             end = std::chrono::high_resolution_clock::now();
             elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+            cout << "Bandwidth: " << maxbw << endl;
             cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
+            cout << endl;
 
             delete(heap_dijkstra);
             // Test - 2: End ---------------------------------------------------
@@ -143,12 +151,14 @@ int main()
             begin = std::chrono::high_resolution_clock::now();
 
             kruskal = new MaxBwKruskal(graph1[i]);
-            kruskal->findMaxBWPath(src[j], dest[j]);
+            maxbw = kruskal->findMaxBWPath(src[j], dest[j]);
 
             // Stop measuring time and calculate the elapsed time
             end = std::chrono::high_resolution_clock::now();
             elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+            cout << "Bandwidth: " << maxbw << endl;
             cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
+            cout << endl;
 
             delete(kruskal);
             // Test - 3: End ---------------------------------------------------
@@ -158,11 +168,13 @@ int main()
             begin = std::chrono::high_resolution_clock::now();
 
             array_dijkstra = new MaxBwDijkstra(graph2[i], true);
-            array_dijkstra->findMaxBWPath(src[j], dest[j]);
+            maxbw = array_dijkstra->findMaxBWPath(src[j], dest[j]);
 
             end = std::chrono::high_resolution_clock::now();
             elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+            cout << "Bandwidth: " << maxbw << endl;
             cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
+            cout << endl;
 
             delete(array_dijkstra);
             // Test - 4: End ---------------------------------------------------
@@ -172,11 +184,13 @@ int main()
             begin = std::chrono::high_resolution_clock::now();
 
             heap_dijkstra = new MaxBwDijkstra(graph2[i], true);
-            heap_dijkstra->findMaxBWPath(src[j], dest[j]);
+            maxbw = heap_dijkstra->findMaxBWPath(src[j], dest[j]);
 
             end = std::chrono::high_resolution_clock::now();
             elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+            cout << "Bandwidth: " << maxbw << endl;
             cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
+            cout << endl;
 
             delete(heap_dijkstra);
             // Test - 5: End ---------------------------------------------------
@@ -186,11 +200,13 @@ int main()
             begin = std::chrono::high_resolution_clock::now();
             
             kruskal = new MaxBwKruskal(graph2[i]);
-            kruskal->findMaxBWPath(src[j], dest[j]);
+            maxbw = kruskal->findMaxBWPath(src[j], dest[j]);
 
             end = std::chrono::high_resolution_clock::now();
             elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+            cout << "Bandwidth: " << maxbw << endl;
             cout << "Time: " << elapsed.count() * 1e-3 << " us." << endl;
+            cout << endl;
 
             delete(kruskal);
             // Test - 6: End ---------------------------------------------------

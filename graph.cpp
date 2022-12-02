@@ -377,31 +377,35 @@ void Graph::connectVertices(Edge edge)
 int Graph::searchAlonedVertex()
 {
     int i = 0;
-    while (head[i] != NULL)
+    while (i < N)
     {
-        if (i < N)
+        if (head[i] == NULL)
         {
-            i++;
+            // Found the aloned vertex that is not connected
+            return i;
         }
-        else
-        {   
-            // Couldn't find aloned vertex
-            // All vertex is connected
-            return -1;
-        }
+        i++;
     }
-    return i;
+    return -1;
 }
 
 int Graph::searchConnectedVertex()
 {
     // Randomly pick connected vertex
     int i = rand() % N;
-    while (head[i] == NULL)
+    while (i < N)
     {
+        if (head[i] != NULL)
+        {
+            // Found connected vertex
+            return i;
+        }
         i = rand() % N;
     }
-    return i;
+    // Should not went to here, put here as a observation
+    cout << "This part should not hit" << endl;
+
+    return -1;
 }
 
 void Graph::printList(int i)
