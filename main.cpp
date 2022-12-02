@@ -14,7 +14,10 @@ using namespace std;
 #define TEST_GRAPH_NUM  5
 #define TEST_SRC_DEST_NUM   5
 
-#define VERTEX_NUM  5000
+// Be cautious!! changing this to larger than 1500 might take 
+// a long time to generate the graph because I enable the 
+// randomness throughout all the vertex!!
+#define VERTEX_NUM  1500
 
 
 // Graph implementation in C++ without using STL
