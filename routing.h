@@ -13,7 +13,8 @@
 
 using namespace std;
 
-#define DEBUG_MAX_BW_PATH 0
+#define DEBUG_MAX_BW_PATH   0
+#define I_AM_ROOT   (-1)
 
 #define findmin(a, b) (a > b ? b : a)
 

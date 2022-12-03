@@ -138,7 +138,7 @@ int MaxBwDijkstra::Dijkstra(int src, int dest)
     int count = 0; // fringer count
 
     status[src] = intree;
-    dad[src] = -1;
+    dad[src] = I_AM_ROOT;
     bwidth[src] = INT32_MAX;
 
     // Get neighbor vertex of src
@@ -314,6 +314,7 @@ int MaxBwKruskal::findMaxBWPath(int src, int dest)
 
 void MaxBwKruskal::DFS(int s)
 {
+    mst_dad[s] = I_AM_ROOT;
     mst_status[s] = fringer;
 
     // Get neighbor vertex of src

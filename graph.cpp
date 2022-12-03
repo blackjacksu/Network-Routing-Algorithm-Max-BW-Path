@@ -73,11 +73,16 @@ Graph::Graph(int N, enum type t)
     switch (t)
     {
         case type_1:
+#if DEBUG_GRAPH
+            // Allocate memory according to total number of edges 
+            M = N * DEBUG_GRAPH_TYPE_1_VERTEX_AVG_DEG / 2;
+            M_cycle = M * GRAPH_VERTEX_CYCLE_PERCENTAGE;
+#else
             // Allocate memory according to total number of edges 
             M = N * GRAPH_TYPE_1_VERTEX_AVG_DEG / 2;
+            M_cycle = GRAPH_CYCLE_FORMATION_VERTEX_NUM;
+#endif
             edges = new Edge[M];
-
-            M_cycle = M * GRAPH_VERTEX_CYCLE_PERCENTAGE;
             // Ensure the connectivity form a cycle of 100 vertex
             i = 0;
             src_prev = rand() % N;
@@ -163,10 +168,6 @@ Graph::Graph(int N, enum type t)
 
                 if (isvalid == true)
                 {
-                    // This is the stage where we are still constructing cycle
-                    // Last dest become next src
-                    src_prev = edges[i].dest;
-
                     connectVertices(edges[i]);
                     
                     i++;
@@ -179,7 +180,11 @@ Graph::Graph(int N, enum type t)
             M = N * N * GRAPH_TYPE_2_VERTEX_ADJACENCY_PERCENTAGE / 2;
             edges = new Edge[M];
 
+#if DEBUG_GRAPH
             M_cycle = M * GRAPH_VERTEX_CYCLE_PERCENTAGE;
+#else
+            M_cycle = GRAPH_CYCLE_FORMATION_VERTEX_NUM;
+#endif
             // Ensure the connectivity form a cycle of 100 vertex
             i = 0;
             src_prev = rand() % N;
@@ -234,6 +239,7 @@ Graph::Graph(int N, enum type t)
                 }
             }
 
+            cout << "Graph generating progress: " << endl;
             // Second stage of forming the graph
             // Connect the vertex in the cycle list with new vertex
             while (i < M)
@@ -256,7 +262,7 @@ Graph::Graph(int N, enum type t)
                 }
                 else
                 {
-                    edges[i].src = rand() % N;
+                    edges[i].src = i % N;
                     edges[i].dest = rand() % N;
                     edges[i].weight = rand() % GRAPH_EDGE_WEIGHT_MAX + 1;
                 }
@@ -265,15 +271,19 @@ Graph::Graph(int N, enum type t)
 
                 if (isvalid == true)
                 {
-                    // This is the stage where we are still constructing cycle
-                    // Last dest become next src
-                    src_prev = edges[i].dest;
-
                     connectVertices(edges[i]);
                     
                     i++;
                 }
+
+                // Print the progress to show aliveness
+                if (i % 50000 == 0)
+                {
+                    cout << "#";
+                    cout.flush();
             }
+            }
+            cout << endl;
             break;
         default: 
             break;
